@@ -1,5 +1,6 @@
 "use strict";
 const DIGITS = "0123456789";
+const REGDIGIT = new RegExp(`[${DIGITS}]`, "g");
 const OPERATORS = "s+-*/q";
 const divInfo = document.querySelector(".operationInfo");
 const divBoard = document.querySelector(".board");
@@ -10,7 +11,10 @@ let operationString = "";
 
 function validateKey(key) {
   if (key === "q") return !DIGITS.includes(operationString.at(-1));
-  return DIGITS.includes(operationString.at(-1));
+  if (key === ".") return operationString.replace(REGDIGIT, "").at(-1) != ".";
+  if (OPERATORS.includes(key)) return DIGITS.includes(operationString.at(-1));
+  if (DIGITS.includes(key) || "Cc".includes(key)) return true;
+  return false;
 }
 
 function updateInfo(result) {
@@ -21,7 +25,7 @@ function updateInfo(result) {
 
 function modifyOperation(event) {
   const key = event.target.dataset?.key;
-  if (!key || (OPERATORS.includes(key) && !validateKey(key))) return;
+  if (!validateKey(key)) return;
   if (key === "C") {
     operationString = "";
   } else if (key === "c") {
@@ -36,7 +40,9 @@ function generateTokens(operationString) {
   let arrTokens = operationString.split("");
   return arrTokens.reduce(
     (acc, cur) =>
-      acc.length && DIGITS.includes(cur) && !OPERATORS.includes(acc.at(-1))
+      acc.length &&
+      ("." + DIGITS).includes(cur) &&
+      !OPERATORS.includes(acc.at(-1))
         ? acc.slice(0, -1).concat(acc.pop() + cur)
         : acc.concat(cur),
     [],
