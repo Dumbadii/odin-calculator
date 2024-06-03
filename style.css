@@ -1,0 +1,52 @@
+* {
+  border: 0;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  gap: 20px;
+}
+.board {
+  display: flex;
+  flex-direction: column;
+  justify-content: stretch;
+  align-items: stretch;
+  width: 50%;
+  height: 50%;
+  border: 1px solid black;
+}
+.row {
+  display: flex;
+  flex-grow: 1;
+  justify-content: stretch;
+  align-items: stretch;
+}
+.row button {
+  flex-grow: 1;
+  flex-shrink: 1;
+  flex-basis: 18px;
+}
+.row button:hover {
+  background-color: green;
+  color: white;
+}
+.calculate {
+  flex-basis: 60px;
+  width: 50%;
+  padding: 5px;
+}
+.operationInfo {
+  flex-basis: 80px;
+  background-color: grey;
+  color: white;
+  text-align: center;
+  border: 1px solid black;
+  width: 50%;
+  padding: 20px;
+}
