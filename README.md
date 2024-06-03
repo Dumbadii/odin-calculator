@@ -12,5 +12,10 @@ Purpose:
    supports keyboard input.
 2. Marks the completion of 'Odin project - Foundations'
 
+Technologies:
+.javascript
+.html
+.css
+
 Outcome ✅
 https://dumbadii.github.io/odin-calculator/
