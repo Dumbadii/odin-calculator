@@ -3,6 +3,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-family: monospace;
 }
 body {
   display: flex;
@@ -17,8 +18,8 @@ body {
   flex-direction: column;
   justify-content: stretch;
   align-items: stretch;
-  width: 50%;
-  height: 50%;
+  width: 60%;
+  height: 60%;
   border: 1px solid black;
 }
 .row {
@@ -31,6 +32,8 @@ body {
   flex-grow: 1;
   flex-shrink: 1;
   flex-basis: 18px;
+  font-weight: initial;
+  font-size: 2em;
 }
 .row button:hover {
   background-color: green;
@@ -38,15 +41,19 @@ body {
 }
 .calculate {
   flex-basis: 60px;
-  width: 50%;
+  width: 60%;
   padding: 5px;
+  font-weight: initial;
+  font-size: 2em;
 }
-.operationInfo {
-  flex-basis: 80px;
+.display {
+  flex-basis: 100px;
   background-color: grey;
   color: white;
   text-align: center;
   border: 1px solid black;
-  width: 50%;
+  width: 60%;
   padding: 20px;
+  font-weight: initial;
+  font-size: 3em;
 }

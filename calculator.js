@@ -2,9 +2,11 @@
 const DIGITS = "0123456789";
 const REGDIGIT = new RegExp(`[${DIGITS}]`, "g");
 const OPERATORS = "s+-*/q";
-const divInfo = document.querySelector(".operationInfo");
+const divInfo = document.querySelector(".display");
 const divBoard = document.querySelector(".board");
-divBoard.addEventListener("click", modifyOperation);
+divBoard.addEventListener("click", clickButton);
+const body = document.querySelector("body");
+body.addEventListener("keypress", keyPress);
 const btnCalculate = document.querySelector(".calculate");
 btnCalculate.addEventListener("click", calculate);
 let operationString = "";
@@ -17,14 +19,22 @@ function validateKey(key) {
   return false;
 }
 
-function updateInfo(result) {
+function updateDisplay(result) {
   let text = operationString;
   if (result) text += ` = ${result}`;
-  divInfo.textContent = text;
+  divInfo.textContent = text.replace("s", "**").replace("q", "√");
 }
 
-function modifyOperation(event) {
+function clickButton(event) {
   const key = event.target.dataset?.key;
+  inputOperatorOperand(key);
+}
+function keyPress(event) {
+  if (event.key == "Enter") calculate();
+  else inputOperatorOperand(event.key);
+}
+
+function inputOperatorOperand(key) {
   if (!validateKey(key)) return;
   if (key === "C") {
     operationString = "";
@@ -33,7 +43,7 @@ function modifyOperation(event) {
   } else {
     operationString += key;
   }
-  updateInfo();
+  updateDisplay();
 }
 
 function generateTokens(operationString) {
@@ -78,13 +88,23 @@ const addMinus = { "+": (a, b) => a + b, "-": (a, b) => a - b };
 const pow = { s: Math.pow };
 const sqrt = { q: Math.sqrt };
 
+function checkDivideByZero(arrTokens) {
+  let re = arrTokens.findIndex(
+    (item, index, array) => item === "/" && parseFloat(array[index + 1]) === 0,
+  );
+  return re === -1;
+}
 function calculate() {
   if (!operationString || OPERATORS.includes(operationString.at(-1))) return;
   let arrTokens = generateTokens(operationString);
+  if (!checkDivideByZero(arrTokens)) {
+    updateDisplay("Divided by 0");
+    return;
+  }
   arrTokens = unaryOperate(arrTokens, sqrt);
   arrTokens = binaryOperate(arrTokens, pow);
   arrTokens = binaryOperate(arrTokens, mulDiv);
   arrTokens = binaryOperate(arrTokens, addMinus);
   let result = arrTokens[0];
-  updateInfo(Math.round(result * 100) / 100);
+  updateDisplay(Math.round(result * 100) / 100);
 }
