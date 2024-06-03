@@ -57,3 +57,7 @@ body {
   font-weight: initial;
   font-size: 3em;
 }
+span {
+  font-size: 0.5em;
+  color: red;
+}
